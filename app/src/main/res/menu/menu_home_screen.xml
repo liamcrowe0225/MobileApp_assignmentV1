@@ -2,4 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/add"
+        android:icon="@android:drawable/ic_input_add"
+        android:iconTint="#000000"
+        android:title="@string/menu_add"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:iconTint="#000000"
+        android:title="@string/menu_search"
+        app:showAsAction="always" />
+
+    <!-- <item
+        android:id="@+id/edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:iconTint="#000000"
+        android:title="@string/menu_search"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:iconTint="#000000"
+        android:onClick="onDeleteClick"
+        android:title="@string/menu_search"
+        app:showAsAction="always" /> -->
+
 </menu>

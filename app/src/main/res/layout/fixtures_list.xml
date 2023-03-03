@@ -7,7 +7,6 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.example.mobileapp_assignmentv1.activities.ListFixtures">
-    <?xml version="1.0" encoding="utf-8"?>
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout2"

@@ -2,9 +2,9 @@ package com.example.mobileapp_assignmentv1.models
 
 import timber.log.Timber.i
 
-var Id = 0L
+var lastId = 0L
 internal fun getId(): Long {
-    return Id++
+    return lastId++
 }
 class ArrayListStoreFixtures : FixturesArrayFunCall {
 
@@ -26,15 +26,15 @@ class ArrayListStoreFixtures : FixturesArrayFunCall {
         fixture.remove(actualClub)
     }
 
-    override fun update(placemark: Fixtures) {
-        var foundCriteria: Fixtures? = fixture.find { p -> p.idClub == placemark.idClub }
+    override fun update(club: Fixtures) {
+        var foundCriteria: Fixtures? = fixture.find { p -> p.idClub == club.idClub }
         if (foundCriteria != null) {
-            foundCriteria.team1 = placemark.team1
-            foundCriteria.team2 = placemark.team2
-            foundCriteria.score1 = placemark.score1
-            foundCriteria.score2 = placemark.score2
-            foundCriteria.venue = placemark.venue
-            foundCriteria.date = placemark.date
+            foundCriteria.team1 = club.team1
+            foundCriteria.team2 = club.team2
+            foundCriteria.score1 = club.score1
+            foundCriteria.score2 = club.score2
+            foundCriteria.venue = club.venue
+            foundCriteria.date = club.date
             logAll()
         }
     }

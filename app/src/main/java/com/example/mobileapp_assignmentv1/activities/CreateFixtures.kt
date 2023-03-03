@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.example.mobileapp_assignmentv1.R
 import com.google.android.material.snackbar.Snackbar
 import com.example.mobileapp_assignmentv1.models.Fixtures
@@ -41,7 +43,7 @@ import com.example.mobileapp_assignmentv1.main.Main
             binding.btnAdd.setOnClickListener() {
                 dataClassFixtures.team1 = binding.team.text.toString()
                 dataClassFixtures.team2 = binding.team2.text.toString()
-                dataClassFixtures.score1 = (binding.score1.text.toString()).toInt()
+                dataClassFixtures.score1 = (binding.homeScoreSpinner.toString()).toInt()
                 dataClassFixtures.score2 = (binding.score2.text.toString()).toInt()
                 dataClassFixtures.venue = binding.venue.text.toString()
                 dataClassFixtures.date = binding.date.text.toString()
@@ -54,6 +56,19 @@ import com.example.mobileapp_assignmentv1.main.Main
                         .make(it, "Please Enter a title", Snackbar.LENGTH_LONG)
                         .show()
                 }
+            }
+
+            val spinner: Spinner = binding.homeScoreSpinner
+// Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.spinner_options,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner
+                spinner.adapter = adapter
             }
         }
 

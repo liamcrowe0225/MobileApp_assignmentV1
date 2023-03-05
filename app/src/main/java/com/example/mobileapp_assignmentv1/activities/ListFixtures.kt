@@ -92,7 +92,7 @@ as the menu for the activity.
 an ID of R.id.add, the code launches a new activity called CreateFixtures using an Intent.
 
 8. The code defines a getResult variable using the registerForActivityResult() method. This variable
- listens for results from the CreateFixtures activity and updates the binding.recyclerView adapter accordingly.
+listens for results from the CreateFixtures activity and updates the binding.recyclerView adapter accordingly.
 
 9. The fixturesClick() method is called when a fixture item in the binding.recyclerView is clicked.
 It sets the position variable and launches the CreateFixtures activity with an Intent and an extra dataClassClubNames object.

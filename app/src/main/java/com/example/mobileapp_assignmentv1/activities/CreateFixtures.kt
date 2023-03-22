@@ -5,15 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.core.view.isVisible
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.mobileapp_assignmentv1.R
 import com.example.mobileapp_assignmentv1.models.Fixtures
 import com.example.mobileapp_assignmentv1.databinding.CreatingFixtureBinding
+import com.example.mobileapp_assignmentv1.helpers.showImagePicker
 import com.example.mobileapp_assignmentv1.main.Main
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import timber.log.Timber.i
 
 class CreateFixtures : AppCompatActivity() {
@@ -21,6 +23,7 @@ class CreateFixtures : AppCompatActivity() {
         private lateinit var binding: CreatingFixtureBinding
         var dataClassFixtures = Fixtures()
         lateinit var app: Main
+        private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -93,7 +96,14 @@ class CreateFixtures : AppCompatActivity() {
                 // Apply the adapter to the spinner
                 awaySpinner.adapter = adapter
             }
+
+            binding.chooseImage.setOnClickListener {
+                showImagePicker(imageIntentLauncher,this)
+            }
+
+            registerImagePickerCallback()
         }
+
        fun onDeleteClick(item: MenuItem): Boolean {
             when (item.itemId) {
                 R.id.delete -> {
@@ -108,6 +118,31 @@ class CreateFixtures : AppCompatActivity() {
             menuInflater.inflate(R.menu.menu_edit_delete, menu)
             return super.onCreateOptionsMenu(menu)
         }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+
+                            val image = result.data!!.data!!
+                            contentResolver.takePersistableUriPermission(image,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            dataClassFixtures.image = image
+
+                            Picasso.get()
+                                .load(dataClassFixtures.image)
+                                .into(binding.imageEdit)
+                            binding.chooseImage.setText("change_image")
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             when (item.itemId) {

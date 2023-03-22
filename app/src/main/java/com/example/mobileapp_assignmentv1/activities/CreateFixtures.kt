@@ -55,8 +55,8 @@ class CreateFixtures : AppCompatActivity() {
                 dataClassFixtures.venue = binding.venue.text.toString()
                 dataClassFixtures.date = binding.date.text.toString()
                 if (dataClassFixtures.team1.isNotEmpty()  && dataClassFixtures.team2.isNotEmpty() &&
-                    /* binding.homeScoreSpinner.selectedItem.toString() != "Score" &&
-                    binding.awayScoreSpinner.selectedItem.toString() != "Score"&& */
+                     binding.homeScoreSpinner.selectedItem.toString() != "Score" &&
+                    binding.awayScoreSpinner.selectedItem.toString() != "Score"&&
                     dataClassFixtures.venue.isNotEmpty() && dataClassFixtures.date.isNotEmpty()) {
                     app.fixtures.create(dataClassFixtures.copy())
                     setResult(RESULT_OK)

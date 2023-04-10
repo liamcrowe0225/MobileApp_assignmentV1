@@ -1,6 +1,7 @@
 package com.example.mobileapp_assignmentv1.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -101,6 +102,10 @@ class CreateFixtures : AppCompatActivity() {
                 showImagePicker(imageIntentLauncher,this)
             }
 
+            binding.chooseImage2.setOnClickListener {
+                showImagePicker(imageIntentLauncher,this)
+            }
+
             registerImagePickerCallback()
         }
 
@@ -132,11 +137,17 @@ class CreateFixtures : AppCompatActivity() {
                             contentResolver.takePersistableUriPermission(image,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             dataClassFixtures.image = image
+                            dataClassFixtures.image2 = image
 
                             Picasso.get()
                                 .load(dataClassFixtures.image)
                                 .into(binding.imageEdit)
                             binding.chooseImage.setText("change_image")
+
+                            Picasso.get()
+                                .load(dataClassFixtures.image2)
+                                .into(binding.imageEdit2)
+                            binding.chooseImage2.setText("change_image")
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
@@ -157,6 +168,12 @@ class CreateFixtures : AppCompatActivity() {
                     dataClassFixtures.score2 = binding.awayScoreSpinner.selectedItem.toString().toInt()
                     dataClassFixtures.venue = binding.venue.text.toString()
                     dataClassFixtures.date = binding.date.text.toString()
+                    if (dataClassFixtures.image != Uri.EMPTY) {
+                        binding.chooseImage.setText("change_image")
+                    }
+                    if (dataClassFixtures.image != Uri.EMPTY) {
+                        binding.chooseImage2.setText("change_image")
+                    }
                /*     if (dataClassFixtures.team1.isNotEmpty()  && dataClassFixtures.team2.isNotEmpty() &&
                         binding.homeScoreSpinner.selectedItem.toString() != "Score" &&
                         binding.awayScoreSpinner.selectedItem.toString() != "Score"&&

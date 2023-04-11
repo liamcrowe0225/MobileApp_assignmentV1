@@ -119,15 +119,17 @@
 
             <Button
                 android:id="@+id/chooseImage"
+                android:text="Home Image"
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
-                android:text="Button" />
+                />
 
             <Button
                 android:id="@+id/chooseImage2"
+                android:text="Away Image"
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
-                android:text="Button" />
+                />
 
             <ImageView
                 android:id="@+id/imageEdit"

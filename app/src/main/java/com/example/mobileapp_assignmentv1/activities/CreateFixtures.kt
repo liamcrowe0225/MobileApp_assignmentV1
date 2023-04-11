@@ -18,6 +18,7 @@ import com.example.mobileapp_assignmentv1.main.Main
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import timber.log.Timber.i
+import timber.log.Timber.log
 
 class CreateFixtures : AppCompatActivity() {
 
@@ -64,6 +65,7 @@ class CreateFixtures : AppCompatActivity() {
                     dataClassFixtures.venue.isNotEmpty() && dataClassFixtures.date.isNotEmpty()) {
                     app.fixtures.create(dataClassFixtures.copy())
                     setResult(RESULT_OK)
+                    //log(1, "HERE I AM")
                     finish()
                 } else {
                    // i("Please fill in the remaining fields")
@@ -101,12 +103,12 @@ class CreateFixtures : AppCompatActivity() {
             binding.chooseImage.setOnClickListener {
                 showImagePicker(imageIntentLauncher,this)
             }
-
             binding.chooseImage2.setOnClickListener {
                 showImagePicker(imageIntentLauncher,this)
             }
 
             registerImagePickerCallback()
+            registerImagePickerCallback2()
         }
 
        fun onDeleteClick(item: MenuItem): Boolean {
@@ -137,18 +139,39 @@ class CreateFixtures : AppCompatActivity() {
                             contentResolver.takePersistableUriPermission(image,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             dataClassFixtures.image = image
-                            dataClassFixtures.image2 = image
 
                             Picasso.get()
                                 .load(dataClassFixtures.image)
                                 .into(binding.imageEdit)
                             binding.chooseImage.setText("change_image")
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
+    private fun registerImagePickerCallback2() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+
+                            val image2 = result.data!!.data!!
+                            contentResolver.takePersistableUriPermission(
+                                image2,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            )
+                            dataClassFixtures.image = image2
 
                             Picasso.get()
                                 .load(dataClassFixtures.image2)
                                 .into(binding.imageEdit2)
-                            binding.chooseImage2.setText("change_image")
-                        } // end of if
+                            binding.chooseImage2.setText("change_image2")
+                        }
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }
@@ -171,8 +194,8 @@ class CreateFixtures : AppCompatActivity() {
                     if (dataClassFixtures.image != Uri.EMPTY) {
                         binding.chooseImage.setText("change_image")
                     }
-                    if (dataClassFixtures.image != Uri.EMPTY) {
-                        binding.chooseImage2.setText("change_image")
+                    if (dataClassFixtures.image2 != Uri.EMPTY) {
+                        binding.chooseImage2.setText("change_image2")
                     }
                /*     if (dataClassFixtures.team1.isNotEmpty()  && dataClassFixtures.team2.isNotEmpty() &&
                         binding.homeScoreSpinner.selectedItem.toString() != "Score" &&

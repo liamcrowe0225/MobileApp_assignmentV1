@@ -9,7 +9,7 @@ import timber.log.Timber
 import java.lang.reflect.Type
 import java.util.*
 
-const val JSON_FILE = "placemarks.json"
+const val JSON_FILE = "fixtures.json"
 val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
@@ -20,15 +20,12 @@ fun generateRandomId(): Long {
 }
 
 class FixtureJSON(private val context: Context) : FixturesArrayFunCall {
-
     var fixture = mutableListOf<Fixtures>()
-
     init {
         if (exists(context, JSON_FILE)) {
             deserialize()
         }
     }
-
     override fun findAll(): MutableList<Fixtures> {
         logAll()
         return fixture
@@ -39,7 +36,6 @@ class FixtureJSON(private val context: Context) : FixturesArrayFunCall {
         fixture.add(club)
         serialize()
     }
-
     override fun update(club: Fixtures) {
         val listFixtures = findAll() as ArrayList<Fixtures>
         var foundCriteria: Fixtures? = listFixtures.find { p -> p.idClub == club.idClub }
@@ -57,6 +53,7 @@ class FixtureJSON(private val context: Context) : FixturesArrayFunCall {
     }
 
     private fun serialize() {
+        print("in serialize")
         val jsonString = gsonBuilder.toJson(fixture, listType)
         write(context, JSON_FILE, jsonString)
     }

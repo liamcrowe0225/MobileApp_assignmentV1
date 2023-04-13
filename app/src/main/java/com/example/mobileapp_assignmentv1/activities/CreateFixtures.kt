@@ -136,15 +136,33 @@ class CreateFixtures : AppCompatActivity() {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
                             //If image button is equal to one,add image else add image 2
-                            val image = result.data!!.data!!
-                            contentResolver.takePersistableUriPermission(image,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            dataClassFixtures.image = image
+                            if (btnImage == 1) {
+                                val image = result.data!!.data!!
+                                contentResolver.takePersistableUriPermission(
+                                    image,
+                                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                )
+                                dataClassFixtures.image = image
 
-                            Picasso.get()
-                                .load(dataClassFixtures.image)
-                                .into(binding.imageEdit)
-                            binding.chooseImage.setText("change_image")
+                                Picasso.get()
+                                    .load(dataClassFixtures.image)
+                                    .into(binding.imageEdit)
+                                binding.chooseImage.setText("change_image")
+                                //If image button is equal to one,add image else add image 2
+                            }
+                            else {
+                                val image2 = result.data!!.data!!
+                                contentResolver.takePersistableUriPermission(
+                                    image2,
+                                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                )
+                                dataClassFixtures.image2 = image2
+
+                                Picasso.get()
+                                    .load(dataClassFixtures.image2)
+                                    .into(binding.imageEdit2)
+                                binding.chooseImage2.setText("change_image2")
+                            }
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }

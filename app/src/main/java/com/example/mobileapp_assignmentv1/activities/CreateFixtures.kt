@@ -26,7 +26,7 @@ class CreateFixtures : AppCompatActivity() {
         var dataClassFixtures = Fixtures()
         lateinit var app: Main
         private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
-
+        var btnImage = 1
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -101,14 +101,15 @@ class CreateFixtures : AppCompatActivity() {
             }
 
             binding.chooseImage.setOnClickListener {
+                btnImage=1
                 showImagePicker(imageIntentLauncher,this)
             }
             binding.chooseImage2.setOnClickListener {
+                btnImage=2
                 showImagePicker(imageIntentLauncher,this)
             }
 
             registerImagePickerCallback()
-            registerImagePickerCallback2()
         }
 
        fun onDeleteClick(item: MenuItem): Boolean {
@@ -134,7 +135,7 @@ class CreateFixtures : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-
+                            //If image button is equal to one,add image else add image 2
                             val image = result.data!!.data!!
                             contentResolver.takePersistableUriPermission(image,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -145,33 +146,6 @@ class CreateFixtures : AppCompatActivity() {
                                 .into(binding.imageEdit)
                             binding.chooseImage.setText("change_image")
                         } // end of if
-                    }
-                    RESULT_CANCELED -> { } else -> { }
-                }
-            }
-    }
-
-    private fun registerImagePickerCallback2() {
-        imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when(result.resultCode){
-                    RESULT_OK -> {
-                        if (result.data != null) {
-                            i("Got Result ${result.data!!.data}")
-
-                            val image2 = result.data!!.data!!
-                            contentResolver.takePersistableUriPermission(
-                                image2,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            )
-                            dataClassFixtures.image = image2
-
-                            Picasso.get()
-                                .load(dataClassFixtures.image2)
-                                .into(binding.imageEdit2)
-                            binding.chooseImage2.setText("change_image2")
-                        }
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }

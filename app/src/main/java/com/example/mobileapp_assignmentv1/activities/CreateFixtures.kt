@@ -144,6 +144,7 @@ class CreateFixtures : AppCompatActivity() {
                                 )
                                 dataClassFixtures.image = image
 
+
                                 Picasso.get()
                                     .load(dataClassFixtures.image)
                                     .into(binding.imageEdit)

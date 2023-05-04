@@ -15,8 +15,16 @@ data class Fixtures(var idClub: Long = 0,
                      var venue:  String = "",
                      var date: String = "",
                      var image: Uri = Uri.EMPTY,
-                     var image2: Uri = Uri.EMPTY
-) : Parcelable /*{
+                     var image2: Uri = Uri.EMPTY,
+                    var lat : Double = 0.0,
+                    var lng: Double = 0.0,
+                    var zoom: Float = 0f
+) : Parcelable
+@Parcelize
+data class Location(var lat: Double = 0.0,
+                    var lng: Double = 0.0,
+                    var zoom: Float = 0f) : Parcelable
+/*{
     fun getFormattedDate(): String {
         val dateObj = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date)
         return SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(dateObj)

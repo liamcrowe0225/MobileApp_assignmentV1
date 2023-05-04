@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MobileApp_assignmentV1</string>
+    <string name="app_name">Rugby Fixtures</string>
     <string name="addFixture">Add Fixture</string>
     <string name="hint_HomeTeam">Home Team</string>
     <string name="menu_add">Add</string>
@@ -39,6 +39,6 @@
         <item>40</item>
 
 
-
     </string-array>
+    <string name="title_activity_map">MapActivity</string>
 </resources>

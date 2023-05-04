@@ -15,6 +15,7 @@ import com.example.mobileapp_assignmentv1.models.Fixtures
 import com.example.mobileapp_assignmentv1.databinding.CreatingFixtureBinding
 import com.example.mobileapp_assignmentv1.helpers.showImagePicker
 import com.example.mobileapp_assignmentv1.main.Main
+import com.example.mobileapp_assignmentv1.models.Location
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import timber.log.Timber.i
@@ -26,6 +27,7 @@ class CreateFixtures : AppCompatActivity() {
         var dataClassFixtures = Fixtures()
         lateinit var app: Main
         private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+        private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
         var btnImage = 1
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -109,6 +111,18 @@ class CreateFixtures : AppCompatActivity() {
                 showImagePicker(imageIntentLauncher,this)
             }
 
+            binding.locationBtn.setOnClickListener {
+                val location = Location(52.245696, -7.139102, 15f)
+                if (dataClassFixtures.zoom != 0f) {
+                    location.lat =  dataClassFixtures.lat
+                    location.lng = dataClassFixtures.lng
+                    location.zoom = dataClassFixtures.zoom
+                }
+                val launcherIntent = Intent(this, MapActivity::class.java)
+                    .putExtra("location", location)
+                mapIntentLauncher.launch(launcherIntent)
+            }
+
             registerImagePickerCallback()
         }
 
@@ -126,6 +140,26 @@ class CreateFixtures : AppCompatActivity() {
             menuInflater.inflate(R.menu.menu_edit_delete, menu)
             return super.onCreateOptionsMenu(menu)
         }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
+                            i("Location == $location")
+                            dataClassFixtures.lat = location.lat
+                            dataClassFixtures.lng = location.lng
+                            dataClassFixtures.zoom = location.zoom
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
 
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
@@ -148,7 +182,7 @@ class CreateFixtures : AppCompatActivity() {
                                 Picasso.get()
                                     .load(dataClassFixtures.image)
                                     .into(binding.imageEdit)
-                                binding.chooseImage.setText("change_image")
+                                binding.chooseImage.setText("Change Home Img")
                                 //If image button is equal to one,add image else add image 2
                             }
                             else {
@@ -162,7 +196,7 @@ class CreateFixtures : AppCompatActivity() {
                                 Picasso.get()
                                     .load(dataClassFixtures.image2)
                                     .into(binding.imageEdit2)
-                                binding.chooseImage2.setText("change_image2")
+                                binding.chooseImage2.setText("Change Away Img")
                             }
                         } // end of if
                     }

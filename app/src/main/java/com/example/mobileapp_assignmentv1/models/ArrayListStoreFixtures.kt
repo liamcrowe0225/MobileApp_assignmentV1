@@ -37,6 +37,9 @@ class ArrayListStoreFixtures : FixturesArrayFunCall {
             foundCriteria.date = club.date
             foundCriteria.image = club.image
             foundCriteria.image2 = club.image2
+            foundCriteria.lat = club.lat
+            foundCriteria.lng = club.lng
+            foundCriteria.zoom = club.zoom
             logAll()
         }
     }

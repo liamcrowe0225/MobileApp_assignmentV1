@@ -53,10 +53,7 @@ class CreateFixtures : AppCompatActivity() {
                 binding.homeScoreSpinner.setSelection(dataClassFixtures.score1)
                 binding.awayScoreSpinner.setSelection(dataClassFixtures.score2)
                 binding.venue.setText(dataClassFixtures.venue)
-                //binding.dateBtn.setText(dataClassFixtures.date)
-                // binding.btnDelete.isVisible = true
-                //R.id.delete.isVisible = true
-                //R.id.update.isVisible = true
+                binding.venue.setText(dataClassFixtures.date)
             }
 
             binding.btnAdd.setOnClickListener() {
@@ -86,10 +83,7 @@ class CreateFixtures : AppCompatActivity() {
                 binding.calendarView
                     .setOnDateChangeListener(
                         CalendarView.OnDateChangeListener { view, year, month, dayOfMonth ->
-                            // In this Listener we are getting values
-                            // such as year, month and day of month
-                            // on below line we are creating a variable
-                            // in which we are adding all the variables in it.
+
                             val Date = (dayOfMonth.toString() + "-"
                                     + (month + 1) + "-" + year)
 

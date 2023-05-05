@@ -53,7 +53,8 @@ adapter=adapter(app.fixtures.findAll(),this)
         // running a for loop to compare elements.
         for (item in app.fixtures.findAll()) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item.team1.toLowerCase().contains(text.toLowerCase())) {
+            if (item.team1.toLowerCase().contains(text.toLowerCase()) || item.team2.toLowerCase().contains(text.toLowerCase())
+                || item.venue.toLowerCase().contains(text.toLowerCase())) {
                 // if the item is matched we are
                 // adding it to our filtered list.
                 filteredlist.add(item)

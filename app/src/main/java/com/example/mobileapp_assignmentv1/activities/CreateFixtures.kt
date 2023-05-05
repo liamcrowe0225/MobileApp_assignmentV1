@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.CalendarView
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +22,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import timber.log.Timber.i
 import timber.log.Timber.log
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CreateFixtures : AppCompatActivity() {
 
@@ -40,7 +44,8 @@ class CreateFixtures : AppCompatActivity() {
             //R.id.delete.isVisible = false
             //R.id.update.isVisible = false
             app = application as Main
-
+            registerMapCallback()
+           binding.calendarView.visibility = View.GONE
             if (intent.hasExtra("Edit")) {
                 dataClassFixtures = intent.extras?.getParcelable("Edit")!!
                 binding.team.setText(dataClassFixtures.team1)
@@ -48,7 +53,7 @@ class CreateFixtures : AppCompatActivity() {
                 binding.homeScoreSpinner.setSelection(dataClassFixtures.score1)
                 binding.awayScoreSpinner.setSelection(dataClassFixtures.score2)
                 binding.venue.setText(dataClassFixtures.venue)
-                binding.date.setText(dataClassFixtures.date)
+                //binding.dateBtn.setText(dataClassFixtures.date)
                 // binding.btnDelete.isVisible = true
                 //R.id.delete.isVisible = true
                 //R.id.update.isVisible = true
@@ -60,11 +65,11 @@ class CreateFixtures : AppCompatActivity() {
                 dataClassFixtures.score1 = binding.homeScoreSpinner.selectedItem.toString().toInt()
                 dataClassFixtures.score2 = binding.awayScoreSpinner.selectedItem.toString().toInt()
                 dataClassFixtures.venue = binding.venue.text.toString()
-                dataClassFixtures.date = binding.date.text.toString()
+                dataClassFixtures.date = binding.dateBtn.text.toString()
                 if (dataClassFixtures.team1.isNotEmpty()  && dataClassFixtures.team2.isNotEmpty() &&
                      binding.homeScoreSpinner.selectedItem.toString() != "Score" &&
                     binding.awayScoreSpinner.selectedItem.toString() != "Score"&&
-                    dataClassFixtures.venue.isNotEmpty() && dataClassFixtures.date.isNotEmpty()) {
+                    dataClassFixtures.venue.isNotEmpty()) {
                     app.fixtures.create(dataClassFixtures.copy())
                     setResult(RESULT_OK)
                     //log(1, "HERE I AM")
@@ -76,6 +81,32 @@ class CreateFixtures : AppCompatActivity() {
                         .show()
                 }
             }
+
+            //https://www.geeksforgeeks.org/calendar-view-app-in-android-with-kotlin/
+                binding.calendarView
+                    .setOnDateChangeListener(
+                        CalendarView.OnDateChangeListener { view, year, month, dayOfMonth ->
+                            // In this Listener we are getting values
+                            // such as year, month and day of month
+                            // on below line we are creating a variable
+                            // in which we are adding all the variables in it.
+                            val Date = (dayOfMonth.toString() + "-"
+                                    + (month + 1) + "-" + year)
+
+                            // set this date in TextView for Display
+                            binding.dateBtn.setText(Date)
+                        })
+                binding.dateBtn.setOnClickListener() {
+                    if (binding.calendarView.visibility == View.VISIBLE) {
+                        // Calendar view is already visible, so hide it
+                        binding.calendarView.visibility = View.GONE
+                        binding.calendarView.elevation = 0F
+                    } else {
+                        // Calendar view is hidden, so show it
+                        binding.calendarView.visibility = View.VISIBLE
+                        binding.calendarView.elevation = 5F
+                    }
+                }
 
             //Reference: https://www.geeksforgeeks.org/spinner-in-android-using-java-with-example/
             val homeSpinner: Spinner = binding.homeScoreSpinner
@@ -122,7 +153,6 @@ class CreateFixtures : AppCompatActivity() {
                     .putExtra("location", location)
                 mapIntentLauncher.launch(launcherIntent)
             }
-
             registerImagePickerCallback()
         }
 
@@ -217,12 +247,12 @@ class CreateFixtures : AppCompatActivity() {
                     dataClassFixtures.score1 = binding.homeScoreSpinner.selectedItem.toString().toInt()
                     dataClassFixtures.score2 = binding.awayScoreSpinner.selectedItem.toString().toInt()
                     dataClassFixtures.venue = binding.venue.text.toString()
-                    dataClassFixtures.date = binding.date.text.toString()
+                    dataClassFixtures.date = binding.dateBtn.text.toString()
                     if (dataClassFixtures.image != Uri.EMPTY) {
-                        binding.chooseImage.setText("change_image")
+                        binding.chooseImage.setText("Change Home Img")
                     }
                     if (dataClassFixtures.image2 != Uri.EMPTY) {
-                        binding.chooseImage2.setText("change_image2")
+                        binding.chooseImage2.setText("Change Away Img")
                     }
                /*     if (dataClassFixtures.team1.isNotEmpty()  && dataClassFixtures.team2.isNotEmpty() &&
                         binding.homeScoreSpinner.selectedItem.toString() != "Score" &&

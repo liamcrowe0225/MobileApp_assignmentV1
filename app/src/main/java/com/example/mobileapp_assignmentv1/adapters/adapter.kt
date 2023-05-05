@@ -11,6 +11,8 @@ interface adapters {
     fun fixturesClick(fixtures: Fixtures, position: Int)
 }
 
+
+
 class adapter constructor(private var listOfFixtures: List<Fixtures>,
                           private val listener: adapters) :
     RecyclerView.Adapter<adapter.MainHolder>() {
@@ -21,7 +23,14 @@ class adapter constructor(private var listOfFixtures: List<Fixtures>,
 
         return MainHolder(binding)
     }
-
+    fun filterList(filterlist: ArrayList<Fixtures>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        listOfFixtures = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val fixtures = listOfFixtures[holder.adapterPosition]
         holder.bind(fixtures, listener)

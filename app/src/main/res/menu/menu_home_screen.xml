@@ -15,5 +15,4 @@
         android:iconTint="#000000"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-
 </menu>
